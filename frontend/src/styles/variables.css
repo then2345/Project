@@ -1,0 +1,38 @@
+:root {
+    /* 1. Bản màu chính (Color Palette) */
+    --color-bg-main: #0f172a;       /* Slate 900 - Nền tối sâu */
+    --color-bg-surface: #1e293b;    /* Slate 800 - Nền các thẻ card, form */
+    --color-bg-input: #334155;      /* Slate 700 - Nền ô nhập liệu */
+    
+    --color-primary: #6366f1;       /* Indigo 500 - Màu thương hiệu/Nhấn mạnh */
+    --color-primary-hover: #4f46e5; /* Indigo 600 */
+    
+    /* Trạng thái hệ thống */
+    --color-success: #10b981;       /* Emerald 500 - Hoàn thành nhiệm vụ */
+    --color-warning: #f59e0b;       /* Amber 500 - Đang thực hiện */
+    --color-danger: #ef4444;        /* Red 500 - Quá hạn / Cảnh báo */
+
+    /* Màu chữ (Typography Colors) */
+    --color-text-main: #f8fafc;     /* Slate 50 - Chữ chính, tiêu đề */
+    --color-text-muted: #94a3b8;    /* Slate 400 - Chữ phụ, mô tả, chú thích */
+    --color-border: #334155;        /* Slate 700 - Đường kẻ viền nhẹ */
+
+    /* 2. Cấu hình Font hệ thống phẳng, sắc nét */
+    --font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    /* 3. Hệ thống Khoảng cách (Spacing - Base 4px) */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+    --space-xxl: 48px;
+
+    /* 4. Bo góc (Border Radius) */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* 5. Hiệu ứng chuyển động mượt mà */
+    --transition-fast: all 0.2s ease-in-out;
+}
