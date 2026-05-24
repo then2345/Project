@@ -1,23 +1,30 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { authAPI } from '../utils/api';
+import useAuth from '../context/AuthContext'; // Thay đổi: Gọi qua Context để đồng bộ toàn cục
 
 const SignupPage = () => {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const navigate = useNavigate();
+    
+    // Lấy hàm register đã được bọc giáp từ AuthContext
+    const { register } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
+        
         try {
-            await authAPI.register(formData.username, formData.email, formData.password);
+            // Đảm bảo bốc tách và truyền đúng Object { username, email, password } an toàn tuyệt đối
+            await register(formData.username, formData.email, formData.password);
+            
             setSuccess('Đăng ký thành công! Đang chuyển hướng sang trang đăng nhập...');
-            setTimeout(() => navigate('/login'), 2000);
+            setTimeout(() => navigate('/login'), 1500);
         } catch (err) {
-            setError(err.message);
+            // Hiển thị chi tiết lỗi từ Backend trả về nếu có trùng lặp email
+            setError(err.message || 'Đăng ký thất bại. Vui lòng kiểm tra lại.');
         }
     };
 
@@ -29,16 +36,35 @@ const SignupPage = () => {
                 {error && <p style={{ color: 'var(--color-danger)', fontSize: '14px', marginBottom: 'var(--space-sm)' }}>{error}</p>}
                 {success && <p style={{ color: 'var(--color-success)', fontSize: '14px', marginBottom: 'var(--space-sm)' }}>{success}</p>}
 
-                <input type="text" placeholder="Tên người dùng" required style={{ width: '100%', padding: 'var(--space-sm)', marginBottom: 'var(--space-md)', backgroundColor: 'var(--color-bg-input)', border: 'none', borderRadius: 'var(--radius-md)', color: 'var(--color-text-main)' }} 
-                    onChange={e => setFormData({...formData, username: e.target.value})} />
+                <input 
+                    type="text" 
+                    placeholder="Tên người dùng" 
+                    required 
+                    value={formData.username}
+                    style={{ width: '100%', padding: 'var(--space-sm)', marginBottom: 'var(--space-md)', backgroundColor: 'var(--color-bg-input)', border: 'none', borderRadius: 'var(--radius-md)', color: 'var(--color-text-main)' }} 
+                    onChange={e => setFormData({...formData, username: e.target.value})} 
+                />
                 
-                <input type="email" placeholder="Email" required style={{ width: '100%', padding: 'var(--space-sm)', marginBottom: 'var(--space-md)', backgroundColor: 'var(--color-bg-input)', border: 'none', borderRadius: 'var(--radius-md)', color: 'var(--color-text-main)' }}
-                    onChange={e => setFormData({...formData, email: e.target.value})} />
+                <input 
+                    type="email" 
+                    placeholder="Email" 
+                    required 
+                    value={formData.email}
+                    style={{ width: '100%', padding: 'var(--space-sm)', marginBottom: 'var(--space-md)', backgroundColor: 'var(--color-bg-input)', border: 'none', borderRadius: 'var(--radius-md)', color: 'var(--color-text-main)' }}
+                    onChange={e => setFormData({...formData, email: e.target.value})} 
+                />
                 
-                <input type="password" placeholder="Mật khẩu" required style={{ width: '100%', padding: 'var(--space-sm)', marginBottom: 'var(--space-lg)', backgroundColor: 'var(--color-bg-input)', border: 'none', borderRadius: 'var(--radius-md)', color: 'var(--color-text-main)' }}
-                    onChange={e => setFormData({...formData, password: e.target.value})} />
+                <input 
+                    type="password" 
+                    placeholder="Mật khẩu" 
+                    required 
+                    value={formData.password}
+                    style={{ width: '100%', padding: 'var(--space-sm)', marginBottom: 'var(--space-lg)', backgroundColor: 'var(--color-bg-input)', border: 'none', borderRadius: 'var(--radius-md)', color: 'var(--color-text-main)' }}
+                    onChange={e => setFormData({...formData, password: e.target.value})} 
+                />
 
                 <button type="submit" className="btn-primary" style={{ width: '100%', padding: 'var(--space-sm)' }}>Đăng Ký</button>
+                
                 <p style={{ marginTop: 'var(--space-md)', color: 'var(--color-text-muted)', fontSize: '14px', textAlign: 'center' }}>
                     Đã có tài khoản? <Link to="/login" style={{ color: 'var(--color-primary)', textDecoration: 'none' }}>Đăng nhập</Link>
                 </p>

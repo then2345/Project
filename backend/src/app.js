@@ -8,7 +8,7 @@ const authRoutes = require('./routes/auth.routes');
 const taskRoutes = require('./routes/tasks.routes');         
 const timeEntryRoutes = require('./routes/time-entries.routes'); 
 
-// 1. Khởi tạo đối tượng app trước khi sử dụng các middleware
+// 1. Khởi tạo đối tượng app
 const app = express();
 
 // 2. Cấu hình các Middleware hệ thống và bảo mật
@@ -28,7 +28,8 @@ app.get('/health', (req, res) => {
 
 // 4. Centralized Error Handling Middleware (Xử lý lỗi tập trung)
 app.use((err, req, res, next) => {
-    console.error(err.stack);
+    console.error("❌ PHÁT HIỆN LỖI HỆ THỐNG:");
+    console.error(err.stack || err); 
     res.status(err.status || 500).json({
         success: false,
         message: err.message || 'Đã có lỗi xảy ra từ hệ thống nội bộ.'
@@ -36,18 +37,7 @@ app.use((err, req, res, next) => {
 });
 
 // 5. Khởi chạy Server lắng nghe kết nối
-const PORT = process.env.PORT || 3001; // Sử dụng cổng 3001 theo cấu hình thực tế của bạn
+const PORT = process.env.PORT || 5000; // Đặt cứng mặc định 5000 cho khớp với cổng bạn mong muốn
 app.listen(PORT, () => {
-    console.log(`[Server] Đang chạy trên cổng ${PORT}`);
-});
-// Tìm đoạn này ở gần cuối file backend/src/app.js của bạn
-app.use((err, req, res, next) => {
-    // SỬA DÒNG NÀY: In toàn bộ chi tiết lỗi ra Terminal
-    console.error("❌ PHÁT HIỆN LỖI HỆ THỐNG:");
-    console.error(err); 
-    
-    res.status(err.status || 500).json({
-        success: false,
-        message: err.message || 'Đã có lỗi xảy ra từ hệ thống nội bộ.'
-    });
+    console.log(`🚀 [SmartFocus-Server] Đang chạy chính xác trên cổng ${PORT}`);
 });

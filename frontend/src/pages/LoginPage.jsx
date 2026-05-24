@@ -11,16 +11,20 @@ const LoginPage = () => {
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-        try {
-            const data = await authAPI.login(email, password);
-            login(data.user, data.token); // Lưu dữ liệu vào Context toàn cục
-            navigate('/'); // Chuyển hướng vào trang chủ Dashboard
-        } catch (err) {
-            setError(err.message);
-        }
-    };
+    e.preventDefault();
+    setError('');
+    try {
+        // Chỉ gọi duy nhất hàm login từ Context (lấy từ useAuth())
+        // AuthContext sẽ tự gọi api.js và tự lưu token/user cho bạn
+        await login(email, password); 
+        
+        // Sau khi login thành công, chuyển hướng ngay
+        navigate('/'); 
+    } catch (err) {
+        // Lỗi từ backend sẽ được bắt ở đây
+        setError(err.message || 'Đăng nhập thất bại.');
+    }
+};
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', backgroundColor: 'var(--color-bg-main)' }}>
